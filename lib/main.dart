@@ -33,8 +33,20 @@ class _MyHomePageState extends State<MyHomePage> {
   int age;
   int size=30;
   int weight;
-
-  List<String> sportActivities = ['Low','Moderate','High'];
+  List sportActivities = [
+    {
+      'desc': 'Low',
+      'rate': 1.2,
+    },
+    {
+      'desc': 'Moderate',
+      'rate': 1.5,
+    },
+    {
+      'desc': 'High',
+      'rate': 1.8,
+    }
+  ];
   int sportActivitySelected;
   DateTime birthDate;
 
@@ -153,7 +165,18 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               new RaisedButton(
                 onPressed: (){
+                  if(age == null || weight == null || sportActivitySelected == null){
+                    showAlert(context, 'Warning', 'You must fill all fields!');
+                  }
+                  else{
+                    double cal =  (genderMale)?
+                  66.4730 + (13.7516 * weight) + (5.0033 * size) - (6.7550 * age) :
+                    655.0955 + (9.5634 * weight) + (1.8496 * size) - (4.6756 * age);
 
+                    double sportCal = sportActivities[sportActivitySelected]['rate']*cal;
+
+                    showAlert(context, 'Result', 'You need ${cal.round()} calories, relate to your sport activities, you needs ${sportCal.round()} calories.');
+                  }
                 },
                 child: new Text(
                     'Calculate'
@@ -178,10 +201,15 @@ class _MyHomePageState extends State<MyHomePage> {
       lastDate: new DateTime(2020),
     );
 
-    setState(() {
-      birthDate = choice;
-      age = (DateTime.now().difference(birthDate).inDays/365).ceil();
-    });
+    if(choice != null) {
+      setState(() {
+        birthDate = choice;
+        age = (DateTime
+            .now()
+            .difference(birthDate)
+            .inDays / 365).ceil();
+      });
+    }
   }
 
   List<Widget> getSportActivities(){
@@ -199,7 +227,7 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           ),
           new Text(
-            sportActivities[i],
+            sportActivities[i]['desc'],
             style: new TextStyle(
               color: Theme.of(context).primaryColor,
             ),
@@ -211,5 +239,38 @@ class _MyHomePageState extends State<MyHomePage> {
       l.add(column);
     }
     return l;
+  }
+
+  Future showAlert(BuildContext context,String title,String description) async{
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context){
+        return new AlertDialog(
+          title: new Text(
+            title,
+            textAlign: TextAlign.center,
+            textScaleFactor: 1.2,
+          ),
+          contentPadding: EdgeInsets.all(10.0),
+          content: new Text
+          (
+            description,
+            textAlign: TextAlign.center,
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: (){
+                Navigator.pop(context);
+              },
+              child: new Text(
+                  'OK'
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
