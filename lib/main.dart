@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+
   MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -76,6 +78,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           new Switch(
                             value: genderMale,
+                            inactiveTrackColor: (genderMale)? Colors.blue[300] : Colors.pink[300],
+                            activeColor: (genderMale)? Colors.blue : Colors.pink,
                             onChanged: (bool gender){
                               setState(() {
                                 genderMale = gender;
@@ -169,13 +173,14 @@ class _MyHomePageState extends State<MyHomePage> {
     DateTime choice = await showDatePicker(
       context: context,
       initialDatePickerMode: DatePickerMode.year,
-      initialDate: new DateTime.now(),
+      initialDate: birthDate?? new DateTime.now(),
       firstDate: new DateTime(1920),
       lastDate: new DateTime(2020),
     );
 
     setState(() {
       birthDate = choice;
+      age = (DateTime.now().difference(birthDate).inDays/365).ceil();
     });
   }
 
