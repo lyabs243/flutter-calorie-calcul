@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             new Text(
                               'Man',
                               style: new TextStyle(
-                                color: getColor(),
+                                color: Colors.blue,
                               ),
                             ),
                           ],
