@@ -62,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
             widget.title,
             textAlign: TextAlign.center,
           ),
+          backgroundColor: getColor(),
         ),
         body: Center(
           child: Column(
@@ -101,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           new Text(
                             'Man',
                             style: new TextStyle(
-                              color: Colors.blue,
+                              color: getColor(),
                             ),
                           ),
                         ],
@@ -114,17 +115,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: new Text(
                             'Your age is ${age?? ''}'
                         ),
-                        color: Theme.of(context).primaryColor,
+                        color: getColor(),
                         textColor: Colors.white,
                       ),
                       new Text(
                         'Your Size is ${size?? ''} cm',
                         style: new TextStyle(
-                          color: Theme.of(context).primaryColor,
+                          color: getColor(),
                         ),
                       ),
                       new Slider(
                         value: size.toDouble(),
+                        activeColor: getColor(),
                         min: 1.0,
                         max: 250.0,
                         onChanged: (double _size){
@@ -152,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       new Text(
                         'Which Sport do you do?',
                         style: new TextStyle(
-                          color: Theme.of(context).primaryColor,
+                          color: getColor(),
                         ),
                       ),
                       new Row(
@@ -182,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     'Calculate'
                 ),
                 elevation: 15.0,
-                color: Theme.of(context).primaryColor,
+                color: getColor(),
                 textColor: Colors.white,
               ),
             ],
@@ -190,6 +192,13 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  Color getColor(){
+    if(genderMale){
+      return Colors.blue;
+    }
+    return Colors.pink;
   }
 
   Future showDate() async{
@@ -219,6 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           new Radio(
             value: i,
+            activeColor: getColor(),
             groupValue: sportActivitySelected,
             onChanged: (int value){
               setState(() {
@@ -229,7 +239,7 @@ class _MyHomePageState extends State<MyHomePage> {
           new Text(
             sportActivities[i]['desc'],
             style: new TextStyle(
-              color: Theme.of(context).primaryColor,
+              color: getColor(),
             ),
           ),
         ],
